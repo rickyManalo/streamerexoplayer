@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp">
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblVidGrpPickerTitle">
+
+        <Button
+            android:id="@+id/btnVidGrpPickerShare"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/btn_start_playing_bg"
+            android:padding="8dp"
+            android:text="@string/share"
+            android:textColor="@color/btn_start_playing_text_color"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btnVidGrpPickerCafe"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/btn_start_playing_bg"
+            android:padding="8dp"
+            android:text="@string/cafe"
+            android:textColor="@color/btn_start_playing_text_color"
+            android:textSize="30sp" />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/lblVidGrpPickerTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccentDarker"
+        android:padding="8dp"
+        android:text="Choose video group"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

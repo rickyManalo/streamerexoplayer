@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ShareCafe StreamerV3</string>
+    <string name="server_address">Server Address</string>
+    <string name="start_playing">Start Playing</string>
+    <string name="setup_dlg_title">ShareCafe Video Streamer Setup</string>
+    <string name="download_start_error">Download Start Error</string>
+    <string name="show_indicator">Show Indicator?</string>
+    <string name="cafe">Café</string>
+    <string name="share">Share</string>
+</resources>
