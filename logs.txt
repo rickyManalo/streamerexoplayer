@@ -1,0 +1,76 @@
+	private VideoPlayer vp;
+	
+    public void initializePlayer() {
+        if (exoPlayer == null) {
+            bandwidthMeter = new DefaultBandwidthMeter();
+            trackSelectionFactory = new AdaptiveTrackSelection.Factory();
+            trackSelector = new DefaultTrackSelector(trackSelectionFactory);
+            LoadControl loadControl = new DefaultLoadControl();
+
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(ctx, trackSelector, loadControl);
+            mPlayerView.setPlayer(exoPlayer);
+            mPlayerView.setShutterBackgroundColor(Color.TRANSPARENT);
+
+            exoPlayer.addListener(exoPlayEventListener);
+
+            vp = new VideoPlayer();
+        }
+    }
+	
+	public void startPlayFromFile(Video vid){
+		vp.setCurrentVideoAd(vid);
+		vp.setPlayMode(VideoPlayer.LOCAL_FILE);
+
+		if(((MainActivity) ctx).indicatorVisible){
+			((MainActivity) ctx).vIndicator.setVisibility(View.VISIBLE);
+			((MainActivity) ctx).runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					((MainActivity) ctx).vIndicator.setBackgroundColor(ctx.getResources().getColor(R.color.deep_orange_600));
+				}
+			});
+		}else{
+			((MainActivity) ctx).vIndicator.setVisibility(View.GONE);
+		}
+
+		Uri uri = Uri.fromFile(new File(vid.getLocalPath()));
+
+		if(uri == null){
+			if(!((MainActivity) ctx).isDownloading(ctx, vid.getDownloadId())){
+				((MainActivity) ctx).startDownload(vid);
+			}
+			startStream(vid);
+			return;
+		}
+
+		defaultBandwidthMeter = new DefaultBandwidthMeter();
+
+		DataSpec dataSpec = new DataSpec(uri);
+		final FileDataSource fileDataSource = new FileDataSource();
+		try {
+			fileDataSource.open(dataSpec);
+
+			DataSource.Factory factory = new DataSource.Factory() {
+				@Override
+				public DataSource createDataSource() {
+					return fileDataSource;
+				}
+			};
+
+			MediaSource mSource = new ExtractorMediaSource(fileDataSource.getUri(),
+					factory, new DefaultExtractorsFactory(), null, null);
+
+			exoPlayer.setPlayWhenReady(true);
+			exoPlayer.prepare(mSource, false, false);
+		} catch (FileDataSource.FileDataSourceException e) {
+			e.printStackTrace();
+			startStream(vid);
+
+			if(!((MainActivity) ctx).isDownloading(ctx, vid.getDownloadId())){
+				((MainActivity) ctx).startDownload(vid);
+			}
+
+		}
+
+	}
